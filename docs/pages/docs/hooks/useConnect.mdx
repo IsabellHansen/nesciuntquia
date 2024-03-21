@@ -1,0 +1,61 @@
+# useConnect
+
+Hook for connecting to configured connectors.
+
+```tsx
+import { useConnect } from 'wagmi'
+```
+
+## Usage
+
+```tsx
+import { useConnect } from 'wagmi'
+
+const App = () => {
+  const [{ data, error, loading }, connect] = useConnect()
+
+  return (
+    <>
+      <div>Connected: {data.connected.toString()}</div>
+
+      {data.connectors.map((x) => (
+        <button key={x.name} onClick={() => connect(x)}>
+          {x.name}
+        </button>
+      ))}
+    </>
+  )
+}
+```
+
+## Return Values
+
+### result
+
+```ts
+{
+  data?: {
+    connected: boolean
+    connector: Connector
+    connectors: Connector[]
+  }
+  error?: Error
+  loading?: boolean
+}
+```
+
+### connect
+
+```ts
+(connector: Connector) => Promise<
+  | {
+      connector: Connector
+      data: {
+        account?: string
+        chainId?: number
+        provider?: Provider
+      }
+    }
+  | Error
+>
+```
